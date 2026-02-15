@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { UserRoutes } from "../modules/User/User.route";
 
 const router = express.Router();
 
@@ -8,6 +9,10 @@ const moduleRoutes = [
     route: router.get("/", async (req: Request, res: Response) => {
       res.send("Express typescript is running");
     }),
+  },
+  {
+    path: "/users/",
+    route: UserRoutes,
   },
 ];
 
