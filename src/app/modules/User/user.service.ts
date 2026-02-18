@@ -72,8 +72,20 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const updateUser = async (
+  id: string,
+  payload: Partial<IUser>,
+): Promise<IUser> => {
+  const result = await User.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
 export const UserService = {
   createBuyer,
   getAllUsers,
   getSingleUser,
+  updateUser,
 };
