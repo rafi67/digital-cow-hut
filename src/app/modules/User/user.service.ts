@@ -68,7 +68,7 @@ const getAllUsers = async (
 };
 
 const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById({ _id: id });
+  const result = await User.findById(id);
   return result;
 };
 
@@ -83,9 +83,15 @@ const updateUser = async (
   return result;
 };
 
+const deleteUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findByIdAndDelete(id);
+  return result;
+};
+
 export const UserService = {
   createBuyer,
   getAllUsers,
   getSingleUser,
   updateUser,
+  deleteUser,
 };
