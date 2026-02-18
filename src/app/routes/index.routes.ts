@@ -1,15 +1,9 @@
-import express, { Request, Response } from "express";
-import { UserRoutes } from "../modules/User/User.route";
+import express from "express";
+import { UserRoutes } from "../modules/User/user.route";
 
 const router = express.Router();
 
 const moduleRoutes = [
-  {
-    path: "/",
-    route: router.get("/", async (req: Request, res: Response) => {
-      res.send("Express typescript is running");
-    }),
-  },
   {
     path: "/users/",
     route: UserRoutes,

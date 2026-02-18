@@ -7,7 +7,9 @@ let server: Server;
 
 async function main() {
   try {
-    await mongoose.connect(config.database_url as string);
+    await mongoose.connect(config.database_url as string, {
+      dbName: "digitalCowHut",
+    });
     console.log("Database is connected successfully");
     server = app.listen(config.port, () => {
       console.log(`listening port ${config.port}`);
