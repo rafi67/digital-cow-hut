@@ -1,14 +1,35 @@
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPagination } from "../../../interfaces/pagination";
 import { userSearchableFields } from "./user.constant";
 import { IUser, IUserFilters } from "./user.interface";
 import { User } from "./user.model";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
-const createBuyer = async (payload: IUser): Promise<IUser> => {
-  const result = await User.create(payload);
-  return result;
+const createUser = async (user: IUser): Promise<IUser> => {
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create user");
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (err) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw err;
+  }
+  return newUserAllData;
 };
 
 const getAllUsers = async (
@@ -89,7 +110,7 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
 };
 
 export const UserService = {
-  createBuyer,
+  createUser,
   getAllUsers,
   getSingleUser,
   updateUser,

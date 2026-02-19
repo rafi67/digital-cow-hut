@@ -8,10 +8,10 @@ import { paginationFields } from "../../../constants/pagination";
 import { userFilterableFields } from "./user.constant";
 import { IUser } from "./user.interface";
 
-const createBuyer: RequestHandler = catchAsync(
+const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...userData } = req.body;
-    const result = await UserService.createBuyer(userData);
+    const result = await UserService.createUser(userData);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -84,7 +84,7 @@ const deleteUser: RequestHandler = catchAsync(
 );
 
 export const UserController = {
-  createBuyer,
+  createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
