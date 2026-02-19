@@ -20,13 +20,19 @@ const createCow = async (cow: ICow): Promise<ICow | null> => {
 
     await session.commitTransaction();
     await session.endSession();
-
-    return newCowAllData;
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
     throw err;
   }
+
+  if (newCowAllData) {
+    newCowAllData = await Cow.findOne({ _id: newCowAllData._id }).populate(
+      "seller",
+    );
+  }
+
+  return newCowAllData;
 };
 
 export const CowService = {
