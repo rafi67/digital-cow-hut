@@ -13,11 +13,33 @@ const createUserZodSchema = z.object({
       lastName: z.string("Last name is required"),
     }),
     address: z.string("Address is required"),
-    budget: z.number().optional(),
-    income: z.number().optional(),
+    budget: z.number("Type error").optional(),
+    income: z.number("Type error").optional(),
+  }),
+});
+
+const updateUserZodSchema = z.object({
+  body: z.object({
+    phoneNumber: z.string("Type error").optional(),
+    role: z
+      .enum([...role] as [string, ...string[]], {
+        error: "Type error",
+      })
+      .optional(),
+    password: z.string("Type error").optional(),
+    name: z
+      .object({
+        firstName: z.string("Type error").optional(),
+        lastName: z.string("Type error").optional(),
+      })
+      .optional(),
+    address: z.string("Type error").optional(),
+    budget: z.number("Type error").optional(),
+    income: z.number("Type error").optional(),
   }),
 });
 
 export const UserValidation = {
   createUserZodSchema,
+  updateUserZodSchema,
 };
