@@ -11,7 +11,12 @@ router.post(
   CowController.createCow,
 );
 
-router.get('/:id', CowController.getSingleCow)
+router.get("/:id", CowController.getSingleCow);
 router.get("/", CowController.getAllCows);
+router.patch(
+  "/:id",
+  validateRequest(CowValidation.updateCowZodSchema),
+  CowController.updateCow,
+);
 
 export const CowRoutes = router;
