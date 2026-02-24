@@ -96,7 +96,13 @@ const getAllCows = async (
   };
 };
 
+const getSingleCow = async (id: string): Promise<ICow | null> => {
+  const result = await Cow.findById(id);
+  return result;
+};
+
 export const CowService = {
   createCow,
   getAllCows,
+  getSingleCow,
 };
