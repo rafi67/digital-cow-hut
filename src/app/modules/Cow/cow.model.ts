@@ -8,11 +8,11 @@ const cowSchema = new Schema<ICow>({
     required: true,
   },
   age: {
-    type: Number,
+    type: String,
     required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
   location: {
@@ -26,7 +26,7 @@ const cowSchema = new Schema<ICow>({
     required: true,
   },
   weight: {
-    type: Number,
+    type: String,
     required: true,
   },
   label: {

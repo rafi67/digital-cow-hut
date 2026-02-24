@@ -1,8 +1,12 @@
-import mongoose from "mongoose";
-import { ICow } from "./cow.interface";
+import mongoose, { SortOrder } from "mongoose";
+import { cowFilterableFields, ICow } from "./cow.interface";
 import { Cow } from "./cow.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
+import { IPagination } from "../../../interfaces/pagination";
+import { IGenericResponse } from "../../../interfaces/common";
+import { cowSearchableFields } from "./cow.constant";
+import { paginationHelpers } from "../../../helpers/paginationHelpers";
 
 const createCow = async (cow: ICow): Promise<ICow | null> => {
   let newCowAllData = null;
@@ -35,6 +39,64 @@ const createCow = async (cow: ICow): Promise<ICow | null> => {
   return newCowAllData;
 };
 
+const getAllCows = async (
+  filters: Partial<cowFilterableFields>,
+  paginationOptions: IPagination,
+): Promise<IGenericResponse<ICow[]>> => {
+  const { searchTerm, ...filtersData } = filters;
+
+  const andConditions = [];
+
+  if (searchTerm) {
+    console.log("searchTerm", searchTerm);
+    andConditions.push({
+      $or: cowSearchableFields.map((field) => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: "i",
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const { skip, limit, page, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Cow.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Cow.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 export const CowService = {
   createCow,
+  getAllCows,
 };
