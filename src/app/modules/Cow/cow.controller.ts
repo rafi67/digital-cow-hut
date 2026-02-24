@@ -41,7 +41,7 @@ const getAllCows: RequestHandler = catchAsync(
 
 const getSingleCow: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = req.params.id as string;
     const result = await CowService.getSingleCow(id);
 
     sendResponse<ICow>(res, {
