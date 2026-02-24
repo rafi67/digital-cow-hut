@@ -38,10 +38,10 @@ export const userSchema = new Schema<IUser, UserModel>(
       required: true,
     },
     budget: {
-      type: Number,
+      type: String,
     },
     income: {
-      type: Number,
+      type: String,
     },
   },
   {

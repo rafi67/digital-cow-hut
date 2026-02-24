@@ -13,8 +13,8 @@ const createUserZodSchema = z.object({
       lastName: z.string("Last name is required"),
     }),
     address: z.string("Address is required"),
-    budget: z.number("Type error").optional(),
-    income: z.number("Type error").optional(),
+    budget: z.string("Type error").optional(),
+    income: z.string("Type error").optional(),
   }),
 });
 
@@ -34,8 +34,8 @@ const updateUserZodSchema = z.object({
       })
       .optional(),
     address: z.string("Type error").optional(),
-    budget: z.number("Type error").optional(),
-    income: z.number("Type error").optional(),
+    budget: z.string("Type error").optional(),
+    income: z.string("Type error").optional(),
   }),
 });
 

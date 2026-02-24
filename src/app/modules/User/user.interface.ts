@@ -11,8 +11,8 @@ export type IUser = {
   password: string;
   name: UserName;
   address: string;
-  budget: number;
-  income: number;
+  budget: string;
+  income: string;
 };
 
 export type IUserFilters = {
