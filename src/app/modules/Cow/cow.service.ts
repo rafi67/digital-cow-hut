@@ -48,7 +48,6 @@ const getAllCows = async (
   const andConditions = [];
 
   if (searchTerm) {
-    console.log("searchTerm", searchTerm);
     andConditions.push({
       $or: cowSearchableFields.map((field) => ({
         [field]: {
@@ -109,9 +108,15 @@ const updateCow = async (id: string, payload: Partial<ICow>): Promise<ICow> => {
   return result;
 };
 
+const deleteCow = async (id: string): Promise<ICow | null> => {
+  const result = await Cow.findByIdAndDelete(id);
+  return result;
+};
+
 export const CowService = {
   createCow,
   getAllCows,
   getSingleCow,
   updateCow,
+  deleteCow,
 };

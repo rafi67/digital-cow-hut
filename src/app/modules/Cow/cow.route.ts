@@ -18,5 +18,6 @@ router.patch(
   validateRequest(CowValidation.updateCowZodSchema),
   CowController.updateCow,
 );
+router.delete("/:id", CowController.deleteCow);
 
 export const CowRoutes = router;

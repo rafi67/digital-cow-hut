@@ -68,9 +68,24 @@ const updateCow: RequestHandler = catchAsync(
   },
 );
 
+const deleteCow: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id as string;
+    const result = await CowService.deleteCow(id);
+
+    sendResponse<ICow>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Cow Deleted successfully",
+      data: result,
+    });
+  },
+);
+
 export const CowController = {
   createCow,
   getAllCows,
   getSingleCow,
   updateCow,
+  deleteCow,
 };
