@@ -3,14 +3,41 @@ import { IOrder } from "./order.interface";
 import { Order } from "./order.model";
 import ApiError from "../../../errors/ApiError";
 import httStatus from "http-status";
-import { populate } from "dotenv";
+import { User } from "../User/user.model";
+import { Cow } from "../Cow/cow.model";
 
-const createOrder = async (order: IOrder): Promise<IOrder> => {
+const createOrder = async (
+  order: IOrder,
+  income: string,
+  budget: string,
+  seller: string,
+): Promise<IOrder> => {
   let newOrderAllData = null;
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
+    await User.findOneAndUpdate(
+      { _id: order.buyer.toString() },
+      { budget },
+      {
+        session,
+        returnDocument: "after",
+      },
+    );
+    await User.findOneAndUpdate(
+      { _id: seller },
+      { income },
+      {
+        session,
+        returnDocument: "after",
+      },
+    );
+    await Cow.findOneAndUpdate(
+      { _id: order.cow },
+      { label: "sold out" },
+      { session, returnDocument: "after" },
+    );
     const newOrder = await Order.create([order], { session });
 
     if (!newOrder.length) {

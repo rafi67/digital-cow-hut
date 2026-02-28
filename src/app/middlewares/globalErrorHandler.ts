@@ -1,10 +1,9 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import { ErrorRequestHandler, Request, Response } from "express";
 import config from "../../config";
 import { IGenericErrorMessage } from "../../interfaces/error";
 import handleValidationError from "../../errors/handleValidationError";
-import { success, ZodError } from "zod";
+import { ZodError } from "zod";
 import handleZodError from "../../errors/handleZodError";
-import mongoose from "mongoose";
 import handleCastError from "../../errors/handleCastError";
 import ApiError from "../../errors/ApiError";
 
@@ -12,7 +11,6 @@ const globalErrorHandler: ErrorRequestHandler = (
   error,
   req: Request,
   res: Response,
-  next: NextFunction,
 ) => {
   config.env === "development"
     ? console.log("globalErrorHandler", error)
