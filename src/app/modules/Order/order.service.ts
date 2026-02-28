@@ -5,6 +5,7 @@ import ApiError from "../../../errors/ApiError";
 import httStatus from "http-status";
 import { User } from "../User/user.model";
 import { Cow } from "../Cow/cow.model";
+import { IGenericResponse } from "../../../interfaces/common";
 
 const createOrder = async (
   order: IOrder,
@@ -63,6 +64,13 @@ const createOrder = async (
   return newOrderAllData;
 };
 
+const getAllOrder = async (): Promise<IOrder[]> => {
+  const result = await Order.find().populate("buyer cow");
+
+  return result;
+};
+
 export const OrderService = {
   createOrder,
+  getAllOrder,
 };

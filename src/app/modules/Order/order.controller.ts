@@ -5,6 +5,7 @@ import httpStatus from "http-status";
 import { OrderService } from "./order.service";
 import { CowService } from "../Cow/cow.service";
 import { UserService } from "../User/user.service";
+import { IOrder } from "./order.interface";
 
 const createOrder: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -43,6 +44,20 @@ const createOrder: RequestHandler = catchAsync(
   },
 );
 
+const getAllOrder: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await OrderService.getAllOrder();
+
+    sendResponse<IOrder[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Orders retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 export const OrderController = {
   createOrder,
+  getAllOrder,
 };
