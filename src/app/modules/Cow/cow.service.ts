@@ -79,11 +79,15 @@ const getAllCows = async (
   andConditions.push({
     $expr: {
       $and: [
-        ...(minPrice? [{$gte: [{$toDouble: "$price"}, Number(minPrice)]}] : []),
-        ...(maxPrice? [{$lte: [{$toDouble: "$price"}, Number(maxPrice)]}] : []),
-      ]
-    }
-  })
+        ...(minPrice
+          ? [{ $gte: [{ $toDouble: "$price" }, Number(minPrice)] }]
+          : []),
+        ...(maxPrice
+          ? [{ $lte: [{ $toDouble: "$price" }, Number(maxPrice)] }]
+          : []),
+      ],
+    },
+  });
 
   const { skip, limit, page, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
@@ -99,6 +103,7 @@ const getAllCows = async (
 
   const result = await Cow.find(whereConditions)
     .sort(sortConditions)
+    .collation({ locale: "en_US", numericOrdering: true })
     .skip(skip)
     .limit(limit);
 
