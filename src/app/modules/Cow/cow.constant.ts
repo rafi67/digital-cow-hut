@@ -30,6 +30,8 @@ export const cowFilterableFields = [
   "breed",
   "location",
   "price",
+  "minPrice",
+  "maxPrice",
   "weight",
   "label",
   "category",

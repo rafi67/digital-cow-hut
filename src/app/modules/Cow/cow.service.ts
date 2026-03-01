@@ -45,6 +45,8 @@ const getAllCows = async (
 ): Promise<IGenericResponse<ICow[]>> => {
   const { searchTerm, ...filtersData } = filters;
 
+  const { minPrice, maxPrice, ...remainingFilters } = filtersData;
+
   const andConditions = [];
 
   if (searchTerm) {
@@ -58,13 +60,30 @@ const getAllCows = async (
     });
   }
 
-  if (Object.keys(filtersData).length) {
+  if (Object.keys(remainingFilters).length) {
     andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => ({
+      $and: Object.entries(remainingFilters).map(([field, value]) => ({
         [field]: value,
       })),
     });
   }
+
+  const priceConditions: any = {};
+
+  if (minPrice !== undefined) {
+    priceConditions["$gte"] = Number(minPrice);
+  } else if (maxPrice !== undefined) {
+    priceConditions["$lte"] = Number(maxPrice);
+  }
+
+  andConditions.push({
+    $expr: {
+      $and: [
+        ...(minPrice? [{$gte: [{$toDouble: "$price"}, Number(minPrice)]}] : []),
+        ...(maxPrice? [{$lte: [{$toDouble: "$price"}, Number(maxPrice)]}] : []),
+      ]
+    }
+  })
 
   const { skip, limit, page, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);

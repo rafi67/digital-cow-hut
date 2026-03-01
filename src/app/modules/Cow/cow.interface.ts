@@ -55,6 +55,8 @@ export type cowFilterableFields = {
   weight: string;
   label: "for sale" | "sold out";
   category: "Dairy" | "Beef" | "DualPurpose";
+  minPrice: string;
+  maxPrice: string;
 };
 
 export type CowModel = Model<ICow, Record<string, unknown>>;

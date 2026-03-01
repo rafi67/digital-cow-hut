@@ -5,7 +5,6 @@ import ApiError from "../../../errors/ApiError";
 import httStatus from "http-status";
 import { User } from "../User/user.model";
 import { Cow } from "../Cow/cow.model";
-import { IGenericResponse } from "../../../interfaces/common";
 
 const createOrder = async (
   order: IOrder,
