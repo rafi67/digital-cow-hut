@@ -1,7 +1,6 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import routes from "./app/routes/index.routes";
-import httpStatus from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import handleNotFound from "./errors/handleNotFound";
 

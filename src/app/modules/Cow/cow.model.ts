@@ -1,6 +1,8 @@
 import { model, Schema } from "mongoose";
 import { CowModel, ICow } from "./cow.interface";
 import { breed, category, label, location } from "./cow.constant";
+import ApiError from "../../../errors/ApiError";
+import httpStatus from "http-status";
 
 const cowSchema = new Schema<ICow>({
   name: {
@@ -44,6 +46,16 @@ const cowSchema = new Schema<ICow>({
     ref: "User",
     required: true,
   },
+});
+
+cowSchema.pre("save", async function () {
+  const isExists = await Cow.findOne({
+    name: this.name,
+  });
+
+  if (isExists) {
+    throw new ApiError(httpStatus.CONFLICT, "Cow already exists");
+  }
 });
 
 export const Cow = model<ICow, CowModel>("Cow", cowSchema);

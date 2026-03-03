@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, Request, Response } from "express";
+import { ErrorRequestHandler, Request, Response, NextFunction } from "express";
 import config from "../../config";
 import { IGenericErrorMessage } from "../../interfaces/error";
 import handleValidationError from "../../errors/handleValidationError";
@@ -11,6 +11,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   error,
   req: Request,
   res: Response,
+  next: NextFunction,
 ) => {
   config.env === "development"
     ? console.log("globalErrorHandler", error)
@@ -31,7 +32,6 @@ const globalErrorHandler: ErrorRequestHandler = (
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (error?.name === "CastError") {
-    res.status(200).json({ error });
     const simplifiedError = handleCastError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
