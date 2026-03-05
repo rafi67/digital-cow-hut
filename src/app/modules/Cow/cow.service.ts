@@ -68,14 +68,6 @@ const getAllCows = async (
     });
   }
 
-  const priceConditions: any = {};
-
-  if (minPrice !== undefined) {
-    priceConditions["$gte"] = Number(minPrice);
-  } else if (maxPrice !== undefined) {
-    priceConditions["$lte"] = Number(maxPrice);
-  }
-
   andConditions.push({
     $expr: {
       $and: [
