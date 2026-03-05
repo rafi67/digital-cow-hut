@@ -17,7 +17,7 @@
 - <a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows/699d4121c56094f7acec2694">api/v1/cows/699d4121c56094f7acec2694 (DELETE)</a>
 
 # Pagination and Filtering routes of Cows
-<a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows?page=1&limit=10">api/v1/cows?pag=1&limit=10</a>
+- <a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows?page=1&limit=10">api/v1/cows?pag=1&limit=10</a>
 - <a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows?sortBy=price&sortOrder=asc">api/v1/cows?sortBy=price&sortOrder=asc</a>
 - <a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows?minPrice=20000&maxPrice=70000">api/v1/cows?minPrice=20000&maxPrice=70000</a>
 - <a href="https://digital-cow-hut-rxgx.onrender.com/api/v1/cows?location=Chattogram">api/v1/cows?location=Chattogram</a>
