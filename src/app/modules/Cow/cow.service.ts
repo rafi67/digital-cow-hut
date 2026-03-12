@@ -81,7 +81,7 @@ const getAllCows = async (
     },
   });
 
-  const { skip, limit, page, sortBy, sortOrder } =
+  const { skip, limit, page, sortBy, sortOrder } = 
     paginationHelpers.calculatePagination(paginationOptions);
 
   const sortConditions: { [key: string]: SortOrder } = {};

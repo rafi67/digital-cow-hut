@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 
-type UserName = {
+export type UserName = {
   firstName: string;
   lastName: string;
 };
