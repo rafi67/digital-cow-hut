@@ -4,6 +4,7 @@ import config from "../../../config";
 import sendResponse from "../../../shared/sendResponse";
 import { ILoginUserResponse } from "./auth.interface";
 import httpStatus from "http-status";
+import { AuthService } from "./auth.service";
 
 const loginUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
