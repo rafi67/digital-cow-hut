@@ -5,8 +5,6 @@ import sendResponse from "../../../shared/sendResponse";
 import { ILoginUserResponse, IRefreshTokenResponse } from "./auth.interface";
 import httpStatus from "http-status";
 import { AuthService } from "./auth.service";
-import ApiError from "../../../errors/ApiError";
-import { jwtHelpers } from "../../../helpers/jwtHelpers";
 
 const loginUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {

@@ -9,4 +9,9 @@ export type IAdmin = {
   address: string;
 };
 
-export type AdminModel = Model<IAdmin, Record<string, unknown>>;
+export type AdminModel = {
+  isUserExists(
+    phoneNumber: string
+  ): Promise<Pick<IAdmin, "phoneNumber" | "password" | "role">>;
+  isPasswordMatched(givenPassword, savedPassword): Promise<boolean>;
+} & Model<IAdmin>
