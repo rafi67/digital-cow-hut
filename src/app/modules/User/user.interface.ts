@@ -21,7 +21,7 @@ export type IUserFilters = {
 
 export type UserModel = {
   isUserExists(
-    id: string,
+    phoneNumber: string,
   ): Promise<Pick<IUser, "phoneNumber" | "password" | "role">>;
   isPasswordMatched(givenPassword, savedPassword): Promise<boolean>;
 } & Model<IUser>;
