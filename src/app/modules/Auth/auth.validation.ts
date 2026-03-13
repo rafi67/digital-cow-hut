@@ -7,6 +7,13 @@ const loginZodSchema = z.object({
   }),
 });
 
+const refreshTokenZodSchema = z.object({
+  body: z.object({
+    refreshToken: z.string("Refresh Token is required"),
+  }),
+});
+
 export const AuthValidation = {
   loginZodSchema,
+  refreshTokenZodSchema,
 };

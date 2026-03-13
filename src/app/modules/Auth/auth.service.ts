@@ -3,7 +3,11 @@ import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { User } from "../User/user.model";
-import { ILoginUser, ILoginUserResponse } from "./auth.interface";
+import {
+  ILoginUser,
+  ILoginUserResponse,
+  IRefreshTokenResponse,
+} from "./auth.interface";
 import httpStatus from "http-status";
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
@@ -53,6 +57,46 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   };
 };
 
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret,
+    );
+
+    console.log(verifiedToken);
+  } catch (err) {
+    console.log(err);
+    throw new ApiError(httpStatus.FORBIDDEN, "Invalid Refresh Token");
+  }
+
+  const { phoneNumber: userPhoneNumber } = verifiedToken;
+
+  const isUserExists = await User.isUserExists(userPhoneNumber);
+
+  if (!isUserExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User does not exists");
+  }
+
+  // generate new token
+  const newAccessToken = jwtHelpers.createToken(
+    {
+      phoneNumber: isUserExists.phoneNumber,
+      role: isUserExists.role,
+    },
+    config.jwt.secret as Secret,
+    {
+      expiresIn: config.jwt.expires_in,
+    },
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
+};
+
 export const AuthService = {
   loginUser,
+  refreshToken,
 };
