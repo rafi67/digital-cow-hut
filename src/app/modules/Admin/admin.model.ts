@@ -18,6 +18,10 @@ export const adminSchema = new Schema<IAdmin, AdminModel>(
       enum: role,
       required: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     name: {
       type: {
         firstName: {
@@ -73,9 +77,9 @@ adminSchema.statics.isPasswordMatched = async function (
 };
 
 adminSchema.pre("save", async function () {
-  const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
+  const admin = this;
+  admin.password = await bcrypt.hash(
+    admin.password,
     Number(config.bcrypt_salt_rounds),
   );
 });
