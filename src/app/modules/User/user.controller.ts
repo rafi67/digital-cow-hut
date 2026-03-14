@@ -53,6 +53,19 @@ const getSingleUser: RequestHandler = catchAsync(
   },
 );
 
+const getMyProfile: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await UserService.getMyProfile(req.user);
+
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Profile retrieved successfully!",
+      data: result,
+    });
+  },
+);
+
 const updateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const id = req.params.id as string;
@@ -87,6 +100,7 @@ export const UserController = {
   createUser,
   getAllUsers,
   getSingleUser,
+  getMyProfile,
   updateUser,
   deleteUser,
 };

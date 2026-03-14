@@ -7,6 +7,7 @@ import { IUser, IUserFilters } from "./user.interface";
 import { User } from "./user.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 
 const createUser = async (user: IUser): Promise<IUser> => {
   let newUserAllData = null;
@@ -93,6 +94,15 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const getMyProfile = async (payload: JwtPayload): Promise<Partial<IUser>> => {
+  const result = await User.findOne({ phoneNumber: payload.phoneNumber });
+  return {
+    name: result.name,
+    phoneNumber: result.phoneNumber,
+    address: result.address,
+  };
+};
+
 const updateUser = async (
   id: string,
   payload: Partial<IUser>,
@@ -113,6 +123,7 @@ export const UserService = {
   createUser,
   getAllUsers,
   getSingleUser,
+  getMyProfile,
   updateUser,
   deleteUser,
 };

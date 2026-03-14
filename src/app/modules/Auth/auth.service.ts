@@ -17,6 +17,8 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 
   const { phoneNumber: userPhoneNumber, role } = isUserExists;
 
+  console.log("user role:", role + "hello");
+
   if (!isUserExists) {
     throw new ApiError(httpStatus.NOT_FOUND, "User doesn't exists");
   }
