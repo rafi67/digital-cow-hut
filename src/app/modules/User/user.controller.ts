@@ -57,10 +57,25 @@ const getMyProfile: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const result = await UserService.getMyProfile(req.user);
 
-    sendResponse<IUser>(res, {
+    sendResponse<Partial<IUser>>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "Profile retrieved successfully!",
+      data: result,
+    });
+  },
+);
+
+const updateMyProfile: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { ...profileData } = req.body;
+    const phoneNumber = req.params.phone as string;
+    const result = await UserService.updateProfile(phoneNumber, profileData);
+
+    sendResponse<Partial<IUser>>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Profile updated successfully!",
       data: result,
     });
   },
@@ -101,6 +116,7 @@ export const UserController = {
   getAllUsers,
   getSingleUser,
   getMyProfile,
+  updateMyProfile,
   updateUser,
   deleteUser,
 };

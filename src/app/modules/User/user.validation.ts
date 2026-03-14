@@ -39,7 +39,21 @@ const updateUserZodSchema = z.object({
   }),
 });
 
+const updateUserProfileZodSchema = z.object({
+  body: z.object({
+    name: z
+      .object({
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+      })
+      .optional(),
+    phoneNumber: z.string().optional(),
+    address: z.string().optional(),
+  }),
+});
+
 export const UserValidation = {
   createUserZodSchema,
   updateUserZodSchema,
+  updateUserProfileZodSchema,
 };

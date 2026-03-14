@@ -103,6 +103,20 @@ const getMyProfile = async (payload: JwtPayload): Promise<Partial<IUser>> => {
   };
 };
 
+const updateProfile = async (
+  phoneNumber: string,
+  profile: Partial<IUser>,
+): Promise<Partial<IUser>> => {
+  const result = await User.findOneAndUpdate({ phoneNumber }, profile, {
+    returnDocument: "after",
+  });
+  return {
+    name: result.name,
+    phoneNumber: result.phoneNumber,
+    address: result.address,
+  };
+};
+
 const updateUser = async (
   id: string,
   payload: Partial<IUser>,
@@ -124,6 +138,7 @@ export const UserService = {
   getAllUsers,
   getSingleUser,
   getMyProfile,
+  updateProfile,
   updateUser,
   deleteUser,
 };
