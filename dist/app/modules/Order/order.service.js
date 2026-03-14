@@ -48,7 +48,12 @@ const getAllOrder = async () => {
     const result = await order_model_1.Order.find().populate("buyer cow");
     return result;
 };
+const getSingleOrder = async (id) => {
+    const result = await order_model_1.Order.findById(id).populate("buyer cow");
+    return result;
+};
 exports.OrderService = {
     createOrder,
     getAllOrder,
+    getSingleOrder,
 };

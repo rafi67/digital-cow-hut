@@ -42,7 +42,20 @@ const updateUserZodSchema = zod_1.default.object({
         income: zod_1.default.string("Type error").optional(),
     }),
 });
+const updateUserProfileZodSchema = zod_1.default.object({
+    body: zod_1.default.object({
+        name: zod_1.default
+            .object({
+            firstName: zod_1.default.string().optional(),
+            lastName: zod_1.default.string().optional(),
+        })
+            .optional(),
+        phoneNumber: zod_1.default.string().optional(),
+        address: zod_1.default.string().optional(),
+    }),
+});
 exports.UserValidation = {
     createUserZodSchema,
     updateUserZodSchema,
+    updateUserProfileZodSchema,
 };

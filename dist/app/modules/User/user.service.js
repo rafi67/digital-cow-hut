@@ -74,6 +74,24 @@ const getSingleUser = async (id) => {
     const result = await user_model_1.User.findById(id);
     return result;
 };
+const getMyProfile = async (payload) => {
+    const result = await user_model_1.User.findOne({ phoneNumber: payload.phoneNumber });
+    return {
+        name: result.name,
+        phoneNumber: result.phoneNumber,
+        address: result.address,
+    };
+};
+const updateProfile = async (phoneNumber, profile) => {
+    const result = await user_model_1.User.findOneAndUpdate({ phoneNumber }, profile, {
+        returnDocument: "after",
+    });
+    return {
+        name: result.name,
+        phoneNumber: result.phoneNumber,
+        address: result.address,
+    };
+};
 const updateUser = async (id, payload) => {
     const result = await user_model_1.User.findOneAndUpdate({ _id: id }, payload, {
         new: true,
@@ -88,6 +106,8 @@ exports.UserService = {
     createUser,
     getAllUsers,
     getSingleUser,
+    getMyProfile,
+    updateProfile,
     updateUser,
     deleteUser,
 };

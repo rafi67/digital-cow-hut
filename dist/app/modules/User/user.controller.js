@@ -43,6 +43,26 @@ const getSingleUser = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
+const getMyProfile = (0, catchAsync_1.default)(async (req, res) => {
+    const result = await user_service_1.UserService.getMyProfile(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Profile retrieved successfully!",
+        data: result,
+    });
+});
+const updateMyProfile = (0, catchAsync_1.default)(async (req, res) => {
+    const { ...profileData } = req.body;
+    const phoneNumber = req.params.phone;
+    const result = await user_service_1.UserService.updateProfile(phoneNumber, profileData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Profile updated successfully!",
+        data: result,
+    });
+});
 const updateUser = (0, catchAsync_1.default)(async (req, res) => {
     const id = req.params.id;
     const updatedData = req.body;
@@ -68,6 +88,8 @@ exports.UserController = {
     createUser,
     getAllUsers,
     getSingleUser,
+    getMyProfile,
+    updateMyProfile,
     updateUser,
     deleteUser,
 };
